@@ -15,9 +15,10 @@ var clingRef = new Tuple(0,0);
 var pinCorners = false;
 var drawPoints = true;
 var drawSprings = true;
-var gravity = new Tuple(0, 0.5);
-var friction = 0.7;
-var maxForce = 30;
+var gravity = new Tuple(0, 0.2);
+var friction = 0.8;
+var maxForce = 50;
+var maxVelocity = 80;
 
 
 function tick(){
@@ -89,11 +90,11 @@ function tick(){
         }
         
         if(j<side-1){
-          springs.push(new Spring(size*(1+(j%2)*2*disp-disp), 0.4, i*side+j, i*side+j+1));
+          springs.push(new Spring(size*(1+(j%2)*2*disp-disp), 0.2, i*side+j, i*side+j+1));
         }
         
         if(i<side-1){
-          springs.push(new Spring(size*(1+(i%2)*2*disp-disp), 0.4, i*side+j, (i+1)*side+j));
+          springs.push(new Spring(size*(1+(i%2)*2*disp-disp), 0.2, i*side+j, (i+1)*side+j));
         }
       }
     }
@@ -108,10 +109,11 @@ function tick(){
     points = [];
     springs = [];
     
+    var centerX = 550;
     points.push(new Point(new Tuple(550, 100), 1000));
-    points.push(new Point(new Tuple(850, 100)));
+    points.push(new Point(new Tuple(550+500, 100)));
     
-    springs.push(new Spring(500, 0.005, 0, 1));
+    springs.push(new Spring(250, 0.005, 0, 1));
   }
 
   tick();

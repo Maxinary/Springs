@@ -54,33 +54,10 @@ class Tuple{
     this.x *= num;
     this.y *= num;
   }
-}
-
-class Triple{
-  constructor(x, y, z){
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
   
-  add(triple){
-    this.x += triple.x;
-    this.y += triple.y;
-    this.z += triple.z;
+  length(){
+    return Math.sqrt(square(this.x) + square(this.x));
   }
-  
-  multiply(numOrTrip){
-    if(numOrTrip.x === undefined){
-      this.x *= numOrTrip;
-      this.y *= numOrTrip;
-      this.z *= numOrTrip;
-    }else{
-      this.x *= numOrTrip.x;
-      this.y *= numOrTrip.y;
-      this.z *= numOrTrip.z;
-    }
-  }
-
 }
 
 class Point{
@@ -98,12 +75,17 @@ class Point{
   }
   
   tick(){
+    var len = this.velocity.length();
+    if(len > maxVelocity){
+      this.velocity = new Tuple(maxVelocity * this.velocity.x/len, maxVelocity * this.velocity.y/len);
+    }
     this.pos.add(this.velocity);
   }
   
   force(f){
-    f.scale(this.invMass);
-    this.velocity.add(f);
+    var f1 = new Tuple(f.x, f.y);
+    f1.scale(this.invMass);
+    this.velocity.add(f1);
   }
   
   pin(){
@@ -127,7 +109,7 @@ class Spring{
   tick(){
     var pointDist = dist(points[this.points[0]].pos, points[this.points[1]].pos);
     var force = this.k * (pointDist - this.length);
-    force = sign(force)*min([Math.abs(force), maxForce]);
+
     this.tension = Math.abs(pointDist - this.length)/this.length;
     var cos = (points[this.points[1]].pos.x-points[this.points[0]].pos.x)/pointDist;
     var sin = (points[this.points[1]].pos.y-points[this.points[0]].pos.y)/pointDist;
