@@ -15,10 +15,10 @@ var clingRef = new Tuple(0,0);
 var pinCorners = false;
 var drawPoints = true;
 var drawSprings = true;
-var gravity = new Tuple(0, 0.2);
-var friction = 0.8;
-var maxForce = 50;
-var maxVelocity = 80;
+var gravity = new Tuple(0, 0.5);
+var friction = 0.85;
+var maxForce = 500;
+var maxVelocity = 30;
 
 
 function tick(){
@@ -90,11 +90,11 @@ function tick(){
         }
         
         if(j<side-1){
-          springs.push(new Spring(size*(1+(j%2)*2*disp-disp), 0.2, i*side+j, i*side+j+1));
+          springs.push(new Spring(size*(1+(j%2)*2*disp-disp), 0.3, i*side+j, i*side+j+1));
         }
         
         if(i<side-1){
-          springs.push(new Spring(size*(1+(i%2)*2*disp-disp), 0.2, i*side+j, (i+1)*side+j));
+          springs.push(new Spring(size*(1+(i%2)*2*disp-disp), 0.3, i*side+j, (i+1)*side+j));
         }
       }
     }
@@ -121,14 +121,19 @@ function tick(){
 
 
 document.onmousedown = function(event){
+  holding ^= true;
   cling = {};
-  var clingRef = new Tuple(event.clientX, event.clientY);
-  for(var i in points){
-    if(dist(clingRef, points[i].pos) < 30){
-      cling[i] = new Tuple(points[i].pos.x - clingRef.x, points[i].pos.y - clingRef.y);
+  if(holding){
+    canvas.style.cursor = "move";
+    var clingRef = new Tuple(event.clientX, event.clientY);
+    for(var i in points){
+      if(dist(clingRef, points[i].pos) < 30){
+        cling[i] = new Tuple(points[i].pos.x - clingRef.x, points[i].pos.y - clingRef.y);
+      }
     }
+  }else{
+    canvas.style.cursor = "pointer";
   }
-  holding = true;
 };
 
 document.onmousemove = function(event){
@@ -140,7 +145,7 @@ document.onmousemove = function(event){
   }
 };
 
-document.onmouseup = function(event){
-  holding = false;
-  cling = {};
-};
+//document.onmouseup = function(event){
+//  holding = false;
+//  cling = {};
+//};

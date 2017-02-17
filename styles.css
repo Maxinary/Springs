@@ -7,8 +7,17 @@ canvas, body, html{
   background:rgba(255,255,255,0);
 }
 
+canvas{
+    cursor:pointer;
+}
+
 h2{
   position:absolute;
   bottom:4px;
   right:24px;
+  z-index:100;
+  
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
 }
