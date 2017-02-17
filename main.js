@@ -15,10 +15,26 @@ var clingRef = new Tuple(0,0);
 var pinCorners = false;
 var drawPoints = true;
 var drawSprings = true;
+
 var gravity = new Tuple(0, 0.5);
+var gravElem = document.getElementById("grav");
+gravElem.onchange = function(){
+  gravity.y = parseFloat(gravElem.value);
+};
+
 var friction = 0.85;
+var fricElem = document.getElementById("fric");
+fricElem.onchange = function(){
+  friction = 1-parseFloat(fricElem.value);
+};
+
 var maxForce = 500;
+
 var maxVelocity = 180;
+var maxVelElem = document.getElementById("maxVel");
+maxVelElem.onchange = function(){
+  maxVelocity = parseInt(maxVelElem.value);
+};
 
 
 function tick(){
