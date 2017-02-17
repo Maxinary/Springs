@@ -18,7 +18,7 @@ var drawSprings = true;
 var gravity = new Tuple(0, 0.5);
 var friction = 0.85;
 var maxForce = 500;
-var maxVelocity = 30;
+var maxVelocity = 180;
 
 
 function tick(){
@@ -120,7 +120,7 @@ function tick(){
 })();
 
 
-document.onmousedown = function(event){
+canvas.onclick = function(event){
   holding ^= true;
   cling = {};
   if(holding){
@@ -145,7 +145,18 @@ document.onmousemove = function(event){
   }
 };
 
-//document.onmouseup = function(event){
-//  holding = false;
-//  cling = {};
-//};
+document.oncontextmenu = function(event){
+  var cPos = new Tuple(event.clientX, event.clientY);
+  var ret = true;
+  for(var i in points){
+    if(dist(cPos, points[i].pos) < 30){
+      ret = false;
+      if(points[i].pinned){
+        points[i].unpin();
+      }else{
+        points[i].pin();
+      }
+    }
+  }
+  return ret;
+};
